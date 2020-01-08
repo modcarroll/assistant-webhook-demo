@@ -1,0 +1,38 @@
+/**
+  *
+  * main() will be run when you invoke this action
+  *
+  * @param Cloud Functions actions accept a single parameter, which must be a JSON object.
+  *
+  * @return The output of this action, which must be a JSON object.
+  *
+  */
+function main(params) {
+    returnString = '';
+
+    airline = params.airline;
+    flightNum = params.flightNumber;
+    fullQual = airline + flightNum;
+
+    // This section could be an API call, database call, etc.
+    switch(fullQual){
+        case 'AA456':
+            returnString = 'AA456 is 10 minutes ahead of schedule.';
+            break;
+        case 'AA123':
+            returnString = 'AA123 is on time.';
+            break;
+        case 'DL123':
+            returnString = 'DL123 is on time.';
+            break;
+        case 'UA789':
+            returnString = 'UA789 is 5 minutes behind schedule.';
+            break;
+        default:
+            returnString = '**An error has occured.**';
+    }
+    //
+
+    let finalString = " --> " + returnString + " <-- ";
+	return { message: finalString };
+}

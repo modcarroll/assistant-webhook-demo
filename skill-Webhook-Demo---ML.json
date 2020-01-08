@@ -1,0 +1,327 @@
+{
+  "intents": [
+    {
+      "intent": "book-flight",
+      "examples": [
+        {
+          "text": "I want to take a trip"
+        },
+        {
+          "text": "I want to take an airplane ride"
+        },
+        {
+          "text": "book a flight"
+        },
+        {
+          "text": "I need to buy a ticket"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "check-flight-status",
+      "examples": [
+        {
+          "text": "Is my flight delayed"
+        },
+        {
+          "text": "when does my flight land"
+        },
+        {
+          "text": "What is the status of AA 456"
+        },
+        {
+          "text": "What is the status of my flight"
+        },
+        {
+          "text": "Where is my flight"
+        },
+        {
+          "text": "When does AA 123 arrive"
+        },
+        {
+          "text": "Can I check the status of AA 123"
+        },
+        {
+          "text": "What time does my flight depart"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "airport",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "AUS",
+          "synonyms": [
+            "Austin Bergstrom",
+            "Austin"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ATL",
+          "synonyms": [
+            "Atlanta",
+            "Hartsfield-Jackson"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "DAL",
+          "synonyms": [
+            "Love Field",
+            "Dallas Love Field"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "DFW",
+          "synonyms": [
+            "Dallas Fort Worth",
+            "DFW"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "LAX",
+          "synonyms": [
+            "Los Angeles",
+            "LAX"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-number",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "airline",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "VS",
+          "synonyms": [
+            "Virgin Atlantic",
+            "Virgin"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "WN",
+          "synonyms": [
+            "Southwest"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "NK",
+          "synonyms": [
+            "Spirit"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "AA",
+          "synonyms": [
+            "American Airlines",
+            "American Eagle"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "DL",
+          "synonyms": [
+            "Delta"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "UA",
+          "synonyms": [
+            "United Airlines",
+            "United"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "webhooks": [
+    {
+      "url": "",
+      "name": "main_webhook",
+      "headers": []
+    }
+  ],
+  "dialog_nodes": [
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_2_1578503800481",
+      "event_name": "focus",
+      "dialog_node": "handler_9_1578503800493",
+      "previous_sibling": "handler_4_1578503800493"
+    },
+    {
+      "type": "event_handler",
+      "parent": "slot_2_1578503800481",
+      "context": {
+        "airline": "@airline"
+      },
+      "conditions": "@airline",
+      "event_name": "input",
+      "dialog_node": "handler_4_1578503800493"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_1_1578503813667",
+      "event_name": "focus",
+      "dialog_node": "handler_5_1578503813672",
+      "previous_sibling": "handler_3_1578503813672"
+    },
+    {
+      "type": "event_handler",
+      "parent": "slot_1_1578503813667",
+      "context": {
+        "number": "@sys-number"
+      },
+      "conditions": "@sys-number",
+      "event_name": "input",
+      "dialog_node": "handler_3_1578503813672"
+    },
+    {
+      "type": "slot",
+      "parent": "node_6_1578503784131",
+      "variable": "$number",
+      "dialog_node": "slot_1_1578503813667",
+      "previous_sibling": "slot_2_1578503800481"
+    },
+    {
+      "type": "slot",
+      "parent": "node_6_1578503784131",
+      "variable": "$airline",
+      "dialog_node": "slot_2_1578503800481"
+    },
+    {
+      "type": "frame",
+      "title": "check-flight-status",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "One moment while I look up your request."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#check-flight-status",
+      "dialog_node": "node_6_1578503784131",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "title": "book-flight",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Which airline would you prefer?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#book-flight",
+      "dialog_node": "node_2_1578347066358",
+      "previous_sibling": "node_6_1578503784131"
+    },
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_2_1578347066358",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hello. How can I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title"
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "Webhook Demo - ML",
+  "language": "en",
+  "description": ""
+}
